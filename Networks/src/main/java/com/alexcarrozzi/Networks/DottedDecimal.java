@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-public abstract class DottedDecimal {
+public class DottedDecimal {
 	private String _address = "";
 	private Integer[] _addressElements = new Integer[4];
 	
@@ -21,10 +21,22 @@ public abstract class DottedDecimal {
 			_addressElements[i] = Integer.parseInt(split[i]);
 		}
 		
-		this._address = StringUtils.chop(Arrays.stream(this._addressElements)
-							.map(ele -> 
-								String.valueOf(ele).concat(".")
-							).collect(Collectors.joining("")));
+		this._address = formatArrayOfInts(this._addressElements);
+	}
+	
+	public DottedDecimal(int elements[]) {		
+		for(int i=0; i<elements.length; i++) {
+			_addressElements[i] = new Integer(elements[i]);
+		}
+		
+		this._address = formatArrayOfInts(this._addressElements);
+	}
+	
+	private String formatArrayOfInts(Integer elements[]) {
+		return StringUtils.chop(Arrays.stream(this._addressElements)
+				.map(ele -> 
+					String.valueOf(ele).concat(".")
+				).collect(Collectors.joining("")));
 	}
 	
 	public String getAddress() {
